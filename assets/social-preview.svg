@@ -1,0 +1,19 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F2EFE4"/>
+  <circle cx="1050" cy="50" r="250" fill="#E0AD4F" fill-opacity="0.34"/>
+  <circle cx="80" cy="610" r="250" fill="#B95F32" fill-opacity="0.18"/>
+  <rect x="56" y="56" width="1088" height="518" rx="48" fill="#FFF8EA" stroke="#16130D" stroke-opacity="0.12" stroke-width="2"/>
+  <text x="104" y="132" font-family="Space Grotesk, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="4" fill="#763719">LAUNCHPACK</text>
+  <text x="104" y="230" font-family="Georgia, serif" font-size="78" fill="#16130D">Turn messy founder notes</text>
+  <text x="104" y="312" font-family="Georgia, serif" font-size="78" fill="#16130D">into a launch kit.</text>
+  <text x="108" y="382" font-family="Space Grotesk, Arial, sans-serif" font-size="26" fill="#655F52">Product Hunt copy, social posts, FAQ, demo script,</text>
+  <text x="108" y="420" font-family="Space Grotesk, Arial, sans-serif" font-size="26" fill="#655F52">markdown export, and proof-backed receipts.</text>
+  <rect x="104" y="482" width="272" height="68" rx="34" fill="#16130D"/>
+  <text x="240" y="525" text-anchor="middle" font-family="Space Grotesk, Arial, sans-serif" font-size="22" font-weight="700" fill="#FFF8EA">Open-source</text>
+  <rect x="790" y="178" width="286" height="86" rx="24" fill="#F2EFE4" stroke="#16130D" stroke-opacity="0.14"/>
+  <text x="822" y="231" font-family="Space Grotesk, Arial, sans-serif" font-size="23" font-weight="700" fill="#16130D">Paste rough notes</text>
+  <path d="M933 290V382" stroke="#16130D" stroke-width="6" stroke-linecap="round"/>
+  <path d="M906 354L933 384L960 354" stroke="#16130D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="752" y="410" width="362" height="96" rx="28" fill="#16130D"/>
+  <text x="790" y="468" font-family="Space Grotesk, Arial, sans-serif" font-size="25" font-weight="700" fill="#FFF8EA">Get launch-ready assets</text>
+</svg>
