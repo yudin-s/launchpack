@@ -1,5 +1,8 @@
 # Launchpack
 
+[![Product Hunt](https://img.shields.io/badge/Product%20Hunt-Launchpack-DA552F?style=for-the-badge&logo=producthunt&logoColor=white)](https://www.producthunt.com/products/launchpack)
+[![View on GitHub Pages](https://img.shields.io/badge/View%20on-GitHub%20Pages-222222?style=for-the-badge&logo=githubpages&logoColor=white)](https://yudin-s.github.io/launchpack/)
+
 Turn messy founder notes into a Product Hunt launch kit in 60 seconds.
 
 Launchpack is a static, open-source GitHub Pages app for makers preparing a
