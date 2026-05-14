@@ -4,6 +4,8 @@
   const audience = document.querySelector("#audience");
   const tone = document.querySelector("#tone");
   const generationMode = document.querySelector("#generation-mode");
+  const useAiEngine = document.querySelector("#use-ai-engine");
+  const llmSettings = document.querySelector("[data-llm-settings]");
   const llmEndpoint = document.querySelector("#llm-endpoint");
   const llmModel = document.querySelector("#llm-model");
   const llmApiKey = document.querySelector("#llm-api-key");
@@ -44,6 +46,7 @@
 
   function clearForm() {
     form.reset();
+    syncAiToggle();
     currentKit = null;
     activeTab = "productHunt";
     kitRoot.hidden = true;
@@ -234,6 +237,7 @@
 
     localStorage.setItem("launchpack.llmSettings", JSON.stringify({
       generationMode: generationMode.value,
+      useAiEngine: useAiEngine.checked,
       endpoint: llmEndpoint.value.trim(),
       model: llmModel.value.trim(),
       save: true,
@@ -245,12 +249,14 @@
     if (!stored) {
       llmEndpoint.value = "http://localhost:1234/v1";
       llmModel.value = "local-model";
+      syncAiToggle();
       return;
     }
 
     try {
       const settings = JSON.parse(stored);
       generationMode.value = settings.generationMode || "local";
+      useAiEngine.checked = settings.useAiEngine || generationMode.value === "llm";
       llmEndpoint.value = settings.endpoint || "http://localhost:1234/v1";
       llmModel.value = settings.model || "local-model";
       saveLlmSettings.checked = settings.save !== false;
@@ -258,6 +264,17 @@
       llmEndpoint.value = "http://localhost:1234/v1";
       llmModel.value = "local-model";
     }
+    syncAiToggle();
+  }
+
+  function syncAiToggle() {
+    generationMode.value = useAiEngine.checked ? "llm" : "local";
+    llmSettings.hidden = !useAiEngine.checked;
+    testLlmButton.disabled = !useAiEngine.checked;
+    setStatus(useAiEngine.checked
+      ? "AI Engine enabled. Add an endpoint, then test the connection."
+      : "AI Engine off. Launchpack will use local deterministic generation.");
+    saveSettings();
   }
 
   function setBusy(isBusy) {
@@ -318,6 +335,7 @@
   });
 
   exportButton.addEventListener("click", exportMarkdown);
+  useAiEngine.addEventListener("change", syncAiToggle);
   testLlmButton.addEventListener("click", testLlmConnection);
   clearButton.addEventListener("click", clearForm);
   fillSampleButtons.forEach((button) => button.addEventListener("click", fillSample));

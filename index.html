@@ -98,29 +98,41 @@
                 <button class="text-button" type="button" data-test-llm>Test</button>
               </div>
 
-              <label for="generation-mode">Generation mode</label>
-              <select id="generation-mode" name="generationMode">
+              <label class="ai-switch" for="use-ai-engine">
+                <span class="switch-copy">
+                  <strong>Use AI Engine</strong>
+                  <small>Send this launch kit to your local or remote model for a richer draft.</small>
+                </span>
+                <input id="use-ai-engine" name="useAiEngine" type="checkbox">
+                <span class="switch-track" aria-hidden="true">
+                  <span class="switch-thumb"></span>
+                </span>
+              </label>
+
+              <select class="visually-hidden" id="generation-mode" name="generationMode" aria-label="Generation mode">
                 <option value="local">Local deterministic fallback</option>
                 <option value="llm">Local / remote OpenAI-compatible LLM</option>
               </select>
 
-              <label for="llm-endpoint">OpenAI-compatible base URL</label>
-              <input id="llm-endpoint" name="llmEndpoint" placeholder="http://localhost:1234/v1" autocomplete="off">
+              <div class="llm-settings" data-llm-settings>
+                <label for="llm-endpoint">OpenAI-compatible base URL</label>
+                <input id="llm-endpoint" name="llmEndpoint" placeholder="http://localhost:1234/v1" autocomplete="off">
 
-              <label for="llm-model">Model</label>
-              <input id="llm-model" name="llmModel" placeholder="qwen2.5-7b-instruct" autocomplete="off">
+                <label for="llm-model">Model</label>
+                <input id="llm-model" name="llmModel" placeholder="qwen2.5-7b-instruct" autocomplete="off">
 
-              <label for="llm-api-key">API key (optional, stored only in this tab)</label>
-              <input id="llm-api-key" name="llmApiKey" type="password" placeholder="Leave empty for local models" autocomplete="off">
+                <label for="llm-api-key">API key (optional, stored only in this tab)</label>
+                <input id="llm-api-key" name="llmApiKey" type="password" placeholder="Leave empty for local models" autocomplete="off">
 
-              <label class="inline-check" for="save-llm-settings">
-                <input id="save-llm-settings" name="saveLlmSettings" type="checkbox" checked>
-                Save endpoint and model on this device
-              </label>
-              <p class="helper-text">
-                Works with LM Studio, Ollama's OpenAI-compatible endpoint, llama.cpp,
-                vLLM, LocalAI, or your own CORS-enabled proxy.
-              </p>
+                <label class="inline-check" for="save-llm-settings">
+                  <input id="save-llm-settings" name="saveLlmSettings" type="checkbox" checked>
+                  Save endpoint and model on this device
+                </label>
+                <p class="helper-text">
+                  Works with LM Studio, Ollama's OpenAI-compatible endpoint, llama.cpp,
+                  vLLM, LocalAI, or your own CORS-enabled proxy.
+                </p>
+              </div>
               <p class="status-line" data-llm-status></p>
             </div>
 
