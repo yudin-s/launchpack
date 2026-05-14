@@ -13,6 +13,7 @@ launch. Paste a worklog, transcript, changelog, or product brief and get:
 - Launch checklist.
 - Receipts that connect bold claims to source snippets.
 - A ready-to-copy LLM polish prompt for optional AI refinement.
+- Optional local or remote OpenAI-compatible LLM generation.
 - Markdown export.
 
 ## Why Static?
@@ -34,6 +35,41 @@ Then open:
 ```text
 http://localhost:8080
 ```
+
+## Use A Local Or Remote LLM
+
+Launchpack works without AI services, but you can switch `Generation mode` to
+`Local / remote OpenAI-compatible LLM` and provide a model endpoint.
+
+Supported pattern:
+
+```text
+http://localhost:1234/v1
+https://your-domain.example/v1
+```
+
+The app calls:
+
+```text
+POST /chat/completions
+GET /models
+```
+
+Examples:
+
+- LM Studio: start the local server and use `http://localhost:1234/v1`.
+- Ollama: use its OpenAI-compatible endpoint, commonly `http://localhost:11434/v1`.
+- llama.cpp server, vLLM, LocalAI, LiteLLM, or a custom proxy: expose an
+  OpenAI-compatible `/v1` endpoint.
+
+Notes:
+
+- The request is sent directly from the browser to the endpoint you enter.
+- API keys are stored only in the current tab input, not in localStorage.
+- Endpoint and model can be saved locally on your device if the checkbox is on.
+- Your local or remote server must allow browser CORS requests from the Pages
+  domain.
+- If the LLM call fails, Launchpack falls back to deterministic local generation.
 
 ## Deploy To GitHub Pages
 
@@ -58,7 +94,6 @@ http://localhost:8080
 
 ## Roadmap
 
-- Optional OpenAI-compatible proxy mode.
 - Saved local launch kits.
 - GitHub release notes importer.
 - Landing page preview.

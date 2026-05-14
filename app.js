@@ -3,6 +3,13 @@
   const productName = document.querySelector("#product-name");
   const audience = document.querySelector("#audience");
   const tone = document.querySelector("#tone");
+  const generationMode = document.querySelector("#generation-mode");
+  const llmEndpoint = document.querySelector("#llm-endpoint");
+  const llmModel = document.querySelector("#llm-model");
+  const llmApiKey = document.querySelector("#llm-api-key");
+  const saveLlmSettings = document.querySelector("#save-llm-settings");
+  const llmStatus = document.querySelector("[data-llm-status]");
+  const testLlmButton = document.querySelector("[data-test-llm]");
   const worklog = document.querySelector("#worklog");
   const kitTitle = document.querySelector("#kit-title");
   const kitRoot = document.querySelector("#kit");
@@ -14,6 +21,7 @@
 
   let activeTab = "productHunt";
   let currentKit = null;
+  const submitButton = form.querySelector('button[type="submit"]');
 
   function generator() {
     if (!window.LaunchKitGenerator) {
@@ -30,7 +38,7 @@
     audience.value = "indie makers, devtool founders, and solo builders";
     tone.value = "crisp";
     worklog.value = sample;
-    generate();
+    generate().catch(showGenerationError);
     document.querySelector("#builder").scrollIntoView({ behavior: "smooth" });
   }
 
@@ -43,26 +51,52 @@
     exportButton.disabled = true;
     kitTitle.textContent = "Your launch kit will appear here";
     tabContent.innerHTML = "";
+    setStatus("");
   }
 
-  function generate() {
+  async function generate() {
     const input = worklog.value.trim();
     if (!input) {
       worklog.focus();
       return;
     }
 
-    currentKit = generator().generateLocalKit(input, {
+    setBusy(true);
+    setStatus("Generating launch kit...");
+
+    const localKit = generator().generateLocalKit(input, {
       productName: productName.value.trim(),
       audience: audience.value.trim(),
       tone: tone.value,
     });
+
+    currentKit = localKit;
+
+    if (generationMode.value === "llm") {
+      try {
+        saveSettings();
+        setStatus("Asking your configured LLM...");
+        currentKit = await window.LaunchKitAIClient.generateWithLLM({
+          input,
+          localKit,
+          settings: getLlmSettings(),
+        });
+        setStatus("LLM kit generated. Review receipts before launch.");
+      } catch (error) {
+        currentKit = localKit;
+        setStatus(`LLM unavailable, local fallback generated. ${error.message}`);
+      }
+    } else {
+      saveSettings();
+      setStatus("Local deterministic kit generated.");
+    }
 
     kitTitle.textContent = `${currentKit.strategy.productName} launch kit`;
     emptyState.hidden = true;
     kitRoot.hidden = false;
     exportButton.disabled = false;
     setActiveTab(activeTab);
+    setBusy(false);
   }
 
   function setActiveTab(tab) {
@@ -169,6 +203,77 @@
     URL.revokeObjectURL(url);
   }
 
+  async function testLlmConnection() {
+    setStatus("Testing LLM endpoint...");
+    testLlmButton.disabled = true;
+    try {
+      saveSettings();
+      const models = await window.LaunchKitAIClient.testConnection(getLlmSettings());
+      const suffix = models.length ? ` Models: ${models.join(", ")}` : "";
+      setStatus(`Connection OK.${suffix}`);
+    } catch (error) {
+      setStatus(`Connection failed. ${error.message}`);
+    } finally {
+      testLlmButton.disabled = false;
+    }
+  }
+
+  function getLlmSettings() {
+    return {
+      endpoint: llmEndpoint.value.trim(),
+      model: llmModel.value.trim(),
+      apiKey: llmApiKey.value.trim(),
+    };
+  }
+
+  function saveSettings() {
+    if (!saveLlmSettings.checked) {
+      localStorage.removeItem("launchpack.llmSettings");
+      return;
+    }
+
+    localStorage.setItem("launchpack.llmSettings", JSON.stringify({
+      generationMode: generationMode.value,
+      endpoint: llmEndpoint.value.trim(),
+      model: llmModel.value.trim(),
+      save: true,
+    }));
+  }
+
+  function loadSettings() {
+    const stored = localStorage.getItem("launchpack.llmSettings");
+    if (!stored) {
+      llmEndpoint.value = "http://localhost:1234/v1";
+      llmModel.value = "local-model";
+      return;
+    }
+
+    try {
+      const settings = JSON.parse(stored);
+      generationMode.value = settings.generationMode || "local";
+      llmEndpoint.value = settings.endpoint || "http://localhost:1234/v1";
+      llmModel.value = settings.model || "local-model";
+      saveLlmSettings.checked = settings.save !== false;
+    } catch (error) {
+      llmEndpoint.value = "http://localhost:1234/v1";
+      llmModel.value = "local-model";
+    }
+  }
+
+  function setBusy(isBusy) {
+    submitButton.disabled = isBusy;
+    submitButton.textContent = isBusy ? "Generating..." : "Generate launch kit";
+  }
+
+  function setStatus(message) {
+    llmStatus.textContent = message;
+  }
+
+  function showGenerationError(error) {
+    setBusy(false);
+    setStatus(error.message);
+  }
+
   async function copyValue(value, button) {
     await navigator.clipboard.writeText(value);
     const original = button.textContent;
@@ -196,7 +301,7 @@
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    generate();
+    generate().catch(showGenerationError);
   });
 
   document.querySelector(".tabs").addEventListener("click", (event) => {
@@ -213,6 +318,8 @@
   });
 
   exportButton.addEventListener("click", exportMarkdown);
+  testLlmButton.addEventListener("click", testLlmConnection);
   clearButton.addEventListener("click", clearForm);
   fillSampleButtons.forEach((button) => button.addEventListener("click", fillSample));
+  loadSettings();
 })();

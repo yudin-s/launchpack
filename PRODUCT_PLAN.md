@@ -31,6 +31,7 @@ ship a credible launch pack without starting from a blank page.
 - FAQ and launch checklist.
 - Receipts linking major claims to source snippets.
 - AI polish prompt for optional external refinement without sending data by default.
+- Optional browser-side OpenAI-compatible LLM mode for local or remote models.
 - Markdown export.
 
 ## Non-Goals For Version 1
@@ -51,9 +52,23 @@ ship a credible launch pack without starting from a blank page.
 - `app.js`: browser interactions, tabs, copy, export.
 - `.nojekyll`: ensures GitHub Pages serves files as-is.
 
+## LLM Integration
+
+The app remains static and GitHub Pages compatible. Users can optionally enter an
+OpenAI-compatible endpoint, model name, and API key. Launchpack sends the request
+directly from the browser to that endpoint, then merges the model response with
+the deterministic fallback kit.
+
+Principles:
+
+- No server-side key storage.
+- No default data transmission.
+- Endpoint/model may be saved in localStorage; API key is not.
+- CORS must be enabled by the user's local model server or remote proxy.
+- Deterministic local generation remains the fallback if AI is unavailable.
+
 ## Future Versions
 
-- Optional OpenAI-compatible proxy endpoint for higher-quality copy.
 - Competitor comparison input.
 - Landing page hero preview.
 - Saved local launch kits via IndexedDB.

@@ -89,6 +89,41 @@
               <option value="bold">Bold Product Hunt launch</option>
             </select>
 
+            <div class="llm-card">
+              <div class="llm-card-header">
+                <div>
+                  <p class="panel-kicker">Optional AI engine</p>
+                  <h3>Use a local or remote LLM</h3>
+                </div>
+                <button class="text-button" type="button" data-test-llm>Test</button>
+              </div>
+
+              <label for="generation-mode">Generation mode</label>
+              <select id="generation-mode" name="generationMode">
+                <option value="local">Local deterministic fallback</option>
+                <option value="llm">Local / remote OpenAI-compatible LLM</option>
+              </select>
+
+              <label for="llm-endpoint">OpenAI-compatible base URL</label>
+              <input id="llm-endpoint" name="llmEndpoint" placeholder="http://localhost:1234/v1" autocomplete="off">
+
+              <label for="llm-model">Model</label>
+              <input id="llm-model" name="llmModel" placeholder="qwen2.5-7b-instruct" autocomplete="off">
+
+              <label for="llm-api-key">API key (optional, stored only in this tab)</label>
+              <input id="llm-api-key" name="llmApiKey" type="password" placeholder="Leave empty for local models" autocomplete="off">
+
+              <label class="inline-check" for="save-llm-settings">
+                <input id="save-llm-settings" name="saveLlmSettings" type="checkbox" checked>
+                Save endpoint and model on this device
+              </label>
+              <p class="helper-text">
+                Works with LM Studio, Ollama's OpenAI-compatible endpoint, llama.cpp,
+                vLLM, LocalAI, or your own CORS-enabled proxy.
+              </p>
+              <p class="status-line" data-llm-status></p>
+            </div>
+
             <label for="worklog">Worklog, notes, transcript, changelog, commits</label>
             <textarea id="worklog" name="worklog" placeholder="Paste 10-50 lines of messy context here..."></textarea>
 
@@ -162,6 +197,7 @@
     </footer>
 
     <script src="generator.js"></script>
+    <script src="ai-client.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

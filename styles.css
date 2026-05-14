@@ -365,6 +365,23 @@ h3 {
   padding: 24px;
 }
 
+.llm-card {
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid rgba(38, 61, 93, 0.18);
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(145deg, rgba(255, 250, 240, 0.72), rgba(224, 173, 79, 0.12)),
+    rgba(255, 250, 240, 0.48);
+}
+
+.llm-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .panel-header {
   display: flex;
   align-items: flex-start;
@@ -378,6 +395,30 @@ label {
   margin: 18px 0 8px;
   color: var(--muted);
   font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.inline-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.inline-check input {
+  width: auto;
+}
+
+.helper-text,
+.status-line {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.status-line {
+  color: var(--blue);
   font-weight: 700;
 }
 
