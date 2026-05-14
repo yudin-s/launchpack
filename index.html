@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Turn messy founder notes into a Product Hunt launch kit in 60 seconds.">
+    <meta name="theme-color" content="#f2efe4">
+    <title>Launchpack | Worklog-to-Launch Kit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Launchpack home">
+        <span class="brand-mark">LP</span>
+        <span>Launchpack</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#builder">Builder</a>
+        <a href="#plan">Plan</a>
+        <a href="https://github.com/" target="_blank" rel="noreferrer">Open source</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Product Hunt prep from real work</p>
+          <h1>Turn messy founder notes into a launch kit in 60 seconds.</h1>
+          <p class="hero-text">
+            Paste a worklog, transcript, changelog, or product brief. Launchpack
+            extracts the story and gives you Product Hunt copy, social posts,
+            FAQ, a demo script, and proof-backed receipts.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#builder">Build my launch kit</a>
+            <button class="button ghost" type="button" data-fill-sample>Use sample notes</button>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Launchpack product promise">
+          <div class="card-orbit"></div>
+          <p class="card-kicker">Before</p>
+          <p class="scribble">"We shipped a thing... need PH copy by tomorrow."</p>
+          <div class="arrow-line"></div>
+          <p class="card-kicker">After</p>
+          <ul class="launch-bullets">
+            <li>Tagline and short description</li>
+            <li>Maker comment and launch FAQ</li>
+            <li>Social posts and demo script</li>
+            <li>Receipts for every bold claim</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="section-shell" id="builder">
+        <div class="section-heading">
+          <p class="eyebrow">The builder</p>
+          <h2>One input. A complete launch room.</h2>
+          <p>
+            The first version is GitHub Pages-safe: deterministic local generation
+            in the browser, no backend, no hidden API key, and markdown export for
+            humans or agents to keep editing.
+          </p>
+        </div>
+
+        <div class="builder-grid">
+          <form class="input-panel" id="launch-form">
+            <div class="panel-header">
+              <div>
+                <p class="panel-kicker">Raw material</p>
+                <h3>Paste what you actually have</h3>
+              </div>
+              <button class="text-button" type="button" data-fill-sample>Sample</button>
+            </div>
+
+            <label for="product-name">Product name</label>
+            <input id="product-name" name="productName" placeholder="Launchpack" autocomplete="off">
+
+            <label for="audience">Audience</label>
+            <input id="audience" name="audience" placeholder="Indie makers, founders, devtool builders" autocomplete="off">
+
+            <label for="tone">Tone</label>
+            <select id="tone" name="tone">
+              <option value="crisp">Crisp and credible</option>
+              <option value="warm">Warm founder-led</option>
+              <option value="bold">Bold Product Hunt launch</option>
+            </select>
+
+            <label for="worklog">Worklog, notes, transcript, changelog, commits</label>
+            <textarea id="worklog" name="worklog" placeholder="Paste 10-50 lines of messy context here..."></textarea>
+
+            <div class="form-actions">
+              <button class="button primary" type="submit">Generate launch kit</button>
+              <button class="button ghost" type="button" data-clear>Clear</button>
+            </div>
+          </form>
+
+          <section class="output-panel" aria-live="polite">
+            <div class="panel-header">
+              <div>
+                <p class="panel-kicker">Generated launch room</p>
+                <h3 id="kit-title">Your launch kit will appear here</h3>
+              </div>
+              <button class="button compact" type="button" data-export disabled>Export MD</button>
+            </div>
+
+            <div class="empty-state" id="empty-state">
+              <p class="empty-mark">Paste -> position -> launch</p>
+              <p>
+                Start with the sample if you want to see the full flow. The output
+                is structured for Product Hunt, GitHub README drafts, and maker
+                posts.
+              </p>
+            </div>
+
+            <div class="kit" id="kit" hidden>
+              <div class="tabs" role="tablist" aria-label="Launch kit sections">
+                <button class="tab active" type="button" data-tab="productHunt">Product Hunt</button>
+                <button class="tab" type="button" data-tab="social">Social</button>
+                <button class="tab" type="button" data-tab="faq">FAQ</button>
+                <button class="tab" type="button" data-tab="checklist">Checklist</button>
+                <button class="tab" type="button" data-tab="receipts">Receipts</button>
+                <button class="tab" type="button" data-tab="aiPrompt">AI Prompt</button>
+              </div>
+              <div class="tab-content" id="tab-content"></div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section-shell plan-section" id="plan">
+        <div class="section-heading">
+          <p class="eyebrow">Build scope</p>
+          <h2>Designed for a one-day open-source release.</h2>
+        </div>
+        <div class="plan-grid">
+          <article>
+            <span class="step-number">01</span>
+            <h3>Local-first generation</h3>
+            <p>No login and no server required. The app can run from GitHub Pages, a fork, or a local static server.</p>
+          </article>
+          <article>
+            <span class="step-number">02</span>
+            <h3>Proof-backed copy</h3>
+            <p>Receipts connect claims back to snippets in the pasted worklog, avoiding generic AI launch slop.</p>
+          </article>
+          <article>
+            <span class="step-number">03</span>
+            <h3>Markdown handoff</h3>
+            <p>Export the whole kit to markdown so a founder, teammate, or coding agent can keep polishing it.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Built for makers who launch in public before they feel ready.</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="generator.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
